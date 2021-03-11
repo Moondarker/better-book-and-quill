@@ -6,15 +6,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'eclipse'
 
 version = mod_version
 group = mod_group
@@ -23,41 +21,28 @@ archivesBaseName = mod_id
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: mappings_channel, version: mappings_version
+	version = project.forge_version
+	runDir = 'run'
+    mappings = project.mappings
+	coreMod = 'me.moondark.betterbaq.core.CoreMod'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    String myJvmArgs = "-Dfml.coreMods.load=${mod_core_plugin.replace('${mod_group}', mod_group).replace('${mod_id}', mod_id)}"
-    String myRunArgs = "--mixin ${mod_mixin_configs.replace('${mod_id}', mod_id)}"
-    runs {
-        client {
-            args = [myRunArgs]
-            jvmArgs = [myJvmArgs]
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-
-        server {
-            args = [myRunArgs]
-            jvmArgs = [myJvmArgs]
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-    }
 }
 
 repositories {
-    maven { url = 'https://repo.spongepowered.org/maven' }
+    maven {
+        name = 'spongepowered-repo'
+        url = 'https://repo.spongepowered.org/maven/'
+    }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    // minecraft "net.minecraftforge:forge:${forge_version}"
 
-    compile('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
+    compile("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+        exclude module: 'launchwrapper'
         exclude module: 'guava'
         exclude module: 'commons-io'
-        exclude module: 'gson'
     }
 }
 
@@ -81,7 +66,7 @@ processResources {
 jar {
     from {
         configurations.compile
-                .filter { "mixin-0.8.3-SNAPSHOT.jar" == it.name }
+                .filter { "mixin-0.7.11-SNAPSHOT.jar" == it.name }
                 .collect { it.isDirectory() ? it : zipTree(it) }
     } {
         exclude "LICENSE.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"

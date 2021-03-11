@@ -1,4 +1,4 @@
-package com.yourname.modid.core;
+package me.moondark.betterbaq.core;
 
 import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;

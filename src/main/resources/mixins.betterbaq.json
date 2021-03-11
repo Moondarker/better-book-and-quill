@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.moondark.betterbaq.mixin",
+  "client": [
+    "MixinGuiScreen",
+    "MixinGuiScreenBook"
+  ]
+}
