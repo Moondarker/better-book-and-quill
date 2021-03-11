@@ -80,6 +80,8 @@ jar {
         attributes "TweakOrder": "0"
         attributes "MixinConfigs": mod_mixin_configs.replace('${mod_id}', mod_id)
     }
+	
+	classifier = 'release'
 }
 
 jar.finalizedBy('reobfJar')
