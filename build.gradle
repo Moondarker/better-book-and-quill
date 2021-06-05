@@ -39,7 +39,7 @@ repositories {
 dependencies {
     // minecraft "net.minecraftforge:forge:${forge_version}"
 
-    compile("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+    compile("org.spongepowered:mixin:0.8-SNAPSHOT") {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
         exclude module: 'commons-io'
@@ -66,7 +66,7 @@ processResources {
 jar {
     from {
         configurations.compile
-                .filter { "mixin-0.7.11-SNAPSHOT.jar" == it.name }
+                .filter { "mixin-0.8-SNAPSHOT.jar" == it.name }
                 .collect { it.isDirectory() ? it : zipTree(it) }
     } {
         exclude "LICENSE.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
